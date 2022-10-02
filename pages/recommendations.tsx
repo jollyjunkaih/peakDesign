@@ -27,7 +27,7 @@ const Recommendations: NextPage = () => {
   const [wepData, setWepData] = useState([]);
   const [date, setDate] = useState(""); //yyyy-mm-dd
   const [duration, setDuration] = useState(0);
-  const [sliderValue, setSliderValue] = useState(0);
+  const [bestTimeSlotValue, setBestTimeSlotValue] = useState(0);
   const [bestTimeSlot, setBestTimeSlot] = useState("00:00:00");
   const [endBestTimeSlot, setEndBestTimeSlot] = useState("00:00:00");
   const [bestTimeSlotList, setBestTimeSlotList] = useState([]);
@@ -143,15 +143,15 @@ const Recommendations: NextPage = () => {
     let index = bestTimeSlotList.findIndex((item) => {
       return item === time;
     });
-    console.log(index);
     let newBestTime = bestTimeSlotList[index + 1];
+    setBestTimeSlotValue(newBestTime);
+
     console.log(newBestTime);
     let formattedBestTime = "";
     let temp = newBestTime * 10;
     if (temp < 100) {
       formattedBestTime = "0" + newBestTime.toString().slice(0, 1);
     } else formattedBestTime = newBestTime.toString().slice(0, 2);
-    console.log(formattedBestTime);
     if (temp % 2 == 0) {
       formattedBestTime = formattedBestTime.concat(":00");
     } else formattedBestTime = formattedBestTime.concat(":30");
@@ -210,9 +210,14 @@ const Recommendations: NextPage = () => {
               justifyContent={"space-between"}
             >
               <Text fontSize={"20px"}>Recommended Time Slots</Text>
-              <Button size={"sm"} borderRadius={30}>
-                <Text fontSize={"12px"}>Connect to Mail</Text>
-              </Button>
+              <Flex>
+                <Button size={"xs"} borderRadius={30}>
+                  <Text fontSize={"10px"}>Connect to Slack</Text>
+                </Button>
+                <Button size={"xs"} borderRadius={30}>
+                  <Text fontSize={"10px"}>Connect to Mail</Text>
+                </Button>
+              </Flex>
             </Flex>
             <Flex direction={"row"} marginTop={5}>
               <Flex direction="column">
@@ -259,29 +264,6 @@ const Recommendations: NextPage = () => {
           <Card>
             <Flex direction={"row"}>
               <div style={{ maxWidth: 500 }}>
-                {/* <Slider
-                  onChange={(val) => setSliderValue(val)}
-                  min={0}
-                  max={wepData.length / (duration * 2)}
-                  step={1}
-                >
-                  <SliderMark
-                    value={sliderValue}
-                    textAlign="center"
-                    bg="blue.500"
-                    color="white"
-                    mt="-10"
-                    ml="-5"
-                    w="12"
-                  >
-                    {sliderValue}%
-                  </SliderMark>
-                  <SliderTrack bg="red.100">
-                    <Box position="relative" right={10}></Box>
-                    <SliderFilledTrack bg="tomato" />
-                  </SliderTrack>
-                  <SliderThumb boxSize={6} />
-                </Slider> */}
                 <Text top={5} fontSize="12px">
                   Chosen Time Slot
                 </Text>
@@ -314,17 +296,7 @@ const Recommendations: NextPage = () => {
                   >
                     <Text fontSize={"12px"}>Find Next Best Time Slot</Text>
                   </Button>
-                  {/* <Button
-                  variant={"link"}
-                  marginLeft={10}
-                  marginTop={5}
-                  size={"sm"}
-                  borderRadius={30}
-                >
-                  <Text fontSize={"12px"}>
-                    Find Neighbouring Best Time Slot
-                  </Text>
-                </Button> */}
+
                   <Button
                     alignSelf={"start"}
                     variant={"solid"}
@@ -347,9 +319,16 @@ const Recommendations: NextPage = () => {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {wepData.map((item: any) => {
+                      {wepData.map((item: any, index) => {
                         return (
-                          <Tr>
+                          <Tr
+                            bgColor={
+                              index >= 2 * (bestTimeSlotValue - 8) &&
+                              index < 2 * (bestTimeSlotValue - 8) + duration * 2
+                                ? "#0987A0"
+                                : "transparent"
+                            }
+                          >
                             <Td>{item.time}</Td> <Td>{item.price}</Td>
                           </Tr>
                         );
