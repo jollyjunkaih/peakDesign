@@ -1,3 +1,18 @@
+# Hardware and 3D Prints
+
+Resources and scripts are located in `./proj-hardware`.
+
+<hr>
+
+
+# Price Prediction
+
+Resources and scripts are located in `./proj-price-prediction`.
+
+<hr>
+
+# Frontend Server
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
