@@ -78,7 +78,7 @@ export const ChangeIcon = ({
   change: number;
 }) => {
   return (
-    <Flex direction={"row"}>
+    <Flex direction={"row"} marginRight={8}>
       <img src={img}></img>
       <Flex direction={"column"} marginLeft={2}>
         <Text color="rgba(58, 53, 65, 0.68)" fontSize={"12px"}>
